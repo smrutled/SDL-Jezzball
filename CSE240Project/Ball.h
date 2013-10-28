@@ -7,17 +7,17 @@
 class Ball
 {
     private:
-    SDL_Surface* ball;
+    SDL_Texture* texture;
 	
     public:
 	Circle c;
 	int vx, vy;
-    Ball(int x,int y, int xvel, int yvel);
+	Ball(int cx, int cy, int xvel, int yvel, SDL_Texture* texture);
     
 	void Move(std::vector<SDL_Rect> &rects);
     
     void CheckBoxCollision(std::vector<SDL_Rect> &B);
     
-    void Draw(SDL_Surface*  display);
+    void Draw(SDL_Renderer*  renderer);
 };
 #endif

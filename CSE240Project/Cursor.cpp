@@ -1,17 +1,16 @@
 #include "Cursor.h"
-Cursor::Cursor()
+Cursor::Cursor(SDL_Texture* texture)
 {
 	direction=true;
-	arrow=CSurface::OnLoad("arrow.png");
+	this->texture = texture;
 
 }
 Cursor::~Cursor(){
-	SDL_FreeSurface(arrow);
 }
-void Cursor::Draw(SDL_Surface*  display)
+void Cursor::Draw(SDL_Renderer*  renderer)
 {
 	if(direction)
-		CSurface::OnDraw(display, arrow,x-30,y-7,0,0,60,14);
+		CSurface::OnDraw(renderer, texture, x - 30, y - 7, 60, 14,0, 0, 60, 14);
 	else
-		CSurface::OnDraw(display, arrow,x-7,y-30,0,15,14,60);
+		CSurface::OnDraw(renderer, texture, x - 7, y - 30, 14, 60, 0, 15, 14, 60);
 }

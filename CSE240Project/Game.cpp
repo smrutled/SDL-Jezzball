@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Game::Game() {
-	Display = NULL;
+	window = nullptr;
 	Running=true;
 	waittime = 1000.0f/FPS;
 	framestarttime = 0;
@@ -9,7 +9,7 @@ Game::Game() {
 	lvl=1;
 	life=5;
 	area=0;
-	line=NULL;
+	line=nullptr;
 	completebox=false;
 }
 
@@ -39,28 +39,33 @@ int Game::Start(){
 //Init SDL stuff
 bool Game::Init() {
 	
-	if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+		return false;
+
+	if (TTF_Init() == -1)
+		return false;
+
+	if ((window = SDL_CreateWindow("JezzBall", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,
+		SDL_WINDOW_SHOWN)) == nullptr){
 		return false;
 	}
-	  if( TTF_Init() == -1 )
-    {
-        return false;    
-	}
-	if((Display = SDL_SetVideoMode(SCREENWIDTH, SCREENHEIGHT, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
+	if ((renderer = SDL_CreateRenderer(window, -1,
+		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC))==nullptr){
 		return false;
 	}
 
-	if(( Game_Title= CSurface::OnLoad("jezzball.png")) == NULL) {
+	if ((tex_game_title = CSurface::load_image("jezzball.png", renderer)) == nullptr) {
+		return false;
+	}
+	if ((tex_cursor = CSurface::load_image("arrow.png", renderer)) == nullptr) {
+		return false;
+	}
+	if ((tex_ball = CSurface::load_image("ball.png", renderer)) == nullptr) {
 		return false;
 	}
 
 	
 	return true;
-}
-
-//Input handler
-void Game::Input(SDL_Event* Event) {
-	CEvent::Input(Event);
 }
 
 void Game::OnExit() {    
@@ -75,8 +80,8 @@ void Game::Update() {
 	break;
 	case GAME_INIT:
 	SDL_ShowCursor(0);
-	gamecursor= new Cursor();
-	ball=new Ball(SCREENWIDTH/2,SCREENHEIGHT/2,rand()%4+6,rand()%4+6);
+	cursor= new Cursor(tex_cursor);
+	ball=new Ball(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,rand()%4+6,rand()%4+6,tex_ball);
 	ballList.insert(ballList.end(), *ball);
 	delete ball;
 	GameState=GAME_PLAY;
@@ -147,7 +152,7 @@ void Game::Update() {
 			}
 			break;
 			case 2:
-			while(box->y+box->h<SCREENHEIGHT && !completebox)
+			while(box->y+box->h<SCREEN_HEIGHT && !completebox)
 			{
 			box->h+=2;
 			for( int i = 0; i < boxList.size(); i++ )
@@ -189,7 +194,7 @@ void Game::Update() {
 			}
 			break;
 			case 2:
-			while(box->x+box->w<SCREENWIDTH && !completebox)
+			while(box->x+box->w<SCREEN_WIDTH && !completebox)
 			{
 			box->w+=2;
 			for( int i = 0; i < boxList.size(); i++ )
@@ -216,12 +221,12 @@ void Game::Update() {
 
 	}
 	//Checks if the total area of black squares is 85% of the screen
-	if(area>=.85*SCREENWIDTH*SCREENHEIGHT)
+	if(area>=.85*SCREEN_WIDTH*SCREEN_HEIGHT)
 	{
 		lvl+=1;
 		area=0;
 		boxList.clear();
-		ball=new Ball(SCREENWIDTH/3,SCREENHEIGHT/2,rand()%4+6,rand()%4+6);
+		ball=new Ball(SCREEN_WIDTH/3,SCREEN_HEIGHT/2,rand()%4+6,rand()%4+6,tex_ball);
 		ballList.insert(ballList.end(),*ball);
 		delete ball;
 	}
@@ -246,50 +251,46 @@ void Game::Update() {
 
 //Draws surfaces to screen
 void Game::OnRender() {
-	SDL_Rect Rect;
-	Rect.x = 0;
-	Rect.y = 0;
-	Rect.w = SCREENWIDTH;
-	Rect.h = SCREENHEIGHT;
+	//Clear screen
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderClear(renderer);
 
-	SDL_FillRect(Display, &Rect, SDL_MapRGB(Display->format, 255, 255, 255));
-	
 	switch(GameState)
 	{
 	case GAME_MENU:
-	CSurface::OnDraw(Display, Game_Title, 100, 100);
+	CSurface::OnDraw(renderer, tex_game_title, SCREEN_WIDTH/2-100,SCREEN_HEIGHT/2-200,200,400);
 	break;
 	case GAME_INIT:
 	break;
 	case GAME_PLAY:
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	for( int i = 0; i < boxList.size(); i++ )
-		SDL_FillRect(Display, &boxList[i],0);
+		SDL_RenderFillRect(renderer, &boxList[i]);
 	for( int i = 0; i < ballList.size(); i++ )
-		ballList[i].Draw(Display);
-	gamecursor->Draw(Display);
+		ballList[i].Draw(renderer);
+	cursor->Draw(renderer);
 	if(line!=NULL)
 	{
-		line->Draw(Display);
+		line->Draw(renderer);
 	}
 	break;
 	case GAME_PAUSE:
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	for( int i = 0; i < boxList.size(); i++ )
-		SDL_FillRect(Display, &boxList[i],0);
+		SDL_RenderFillRect(renderer, &boxList[i]);
 	for( int i = 0; i < ballList.size(); i++ )
-		ballList[i].Draw(Display);
-	gamecursor->Draw(Display);
+		ballList[i].Draw(renderer);
+	cursor->Draw(renderer);
 	if(line!=NULL)
 	{
-		line->Draw(Display);
+		line->Draw(renderer);
 	}
 	break;
 	}
-	SDL_Flip(Display);
+	SDL_RenderPresent(renderer);
 }
 
 void Game::OnCleanup() {
-	SDL_FreeSurface(Game_Title);
-	SDL_FreeSurface(Display);
 	TTF_Quit();
 	SDL_Quit();}
 
@@ -324,7 +325,7 @@ int Game::DetermineBoxFill(){
 					collided1=true;
 				}
 				else{
-				while(y<SCREENHEIGHT && !collided2){
+				while(y<SCREEN_HEIGHT && !collided2){
 					y+=1;
 					if(Collision::PointBoxCollision(x,y,boxList)){
 						if(y>ballList[i].c.y)
@@ -332,7 +333,7 @@ int Game::DetermineBoxFill(){
 						break;
 					}
 				}
-				if(y>=SCREENHEIGHT)
+				if(y>=SCREEN_HEIGHT)
 					collided2=true;
 				}
 			
@@ -360,7 +361,7 @@ int Game::DetermineBoxFill(){
 					collided1=true;
 				}
 				else{
-					while(x<SCREENWIDTH && !collided2){
+					while(x<SCREEN_WIDTH && !collided2){
 					x+=1;
 					if(Collision::PointBoxCollision(x,y,boxList)){
 						if(x>ballList[i].c.x)
@@ -369,7 +370,7 @@ int Game::DetermineBoxFill(){
 						
 					}
 					}
-					if(x>=SCREENWIDTH)
+					if(x>=SCREEN_WIDTH)
 						collided2=true;
 				}
 			}

@@ -1,70 +1,48 @@
 #include "CSurface.h"
 CSurface::CSurface() {
 }
-SDL_Surface* CSurface::OnLoad(char* File) {
-	SDL_Surface* Surf_Temp = NULL;
-	SDL_Surface* Surf_Return = NULL;
-	if((Surf_Temp = IMG_Load(File)) == NULL) {
-		return NULL;
+SDL_Texture* CSurface::load_image(char* File, SDL_Renderer* renderer) {
+	SDL_Texture* texture = nullptr;
+	if ((texture = IMG_LoadTexture(renderer, File)) == nullptr) {
+		return nullptr;
 	}
-	Surf_Return = SDL_DisplayFormatAlpha(Surf_Temp);
-	SDL_FreeSurface(Surf_Temp);
-	return Surf_Return;
+	return texture;
 }
 
-SDL_Surface* CSurface::OnLoadBMP(char* File) {
-	SDL_Surface* Surf_Temp = NULL;
-	SDL_Surface* Surf_Return = NULL;
-	if((Surf_Temp = SDL_LoadBMP(File)) == NULL) {
-		return NULL;
-	}
-	Surf_Return = SDL_DisplayFormat(Surf_Temp);
-	SDL_FreeSurface(Surf_Temp);
-	return Surf_Return;
-}
-
-bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int X, int Y) {
-    if(Surf_Dest == NULL || Surf_Src == NULL) {
+bool CSurface::OnDraw(SDL_Renderer* renderer, SDL_Texture* texture, int X, int Y, int W, int H) {
+    if(renderer == nullptr || texture == nullptr)
         return false;
-    }
  
     SDL_Rect DestR;
- 
+
     DestR.x = X;
     DestR.y = Y;
- 
-    SDL_BlitSurface(Surf_Src, NULL, Surf_Dest, &DestR);
+	DestR.w = W;
+	DestR.h = H;
+    SDL_RenderCopy(renderer, texture, nullptr, &DestR);
  
     return true;
 }
 
-bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int X, int Y, int X2, int Y2, int W, int H) 
+bool CSurface::OnDraw(SDL_Renderer* renderer, SDL_Texture* texture, int X, int Y, int W, int H, int X2, int Y2, int W2, int H2)
 {    
-	if(Surf_Dest == NULL || Surf_Src == NULL) 
-	{        
-		return false;    
-	}     
+	if (renderer == nullptr || texture == nullptr)
+		return false;
+
 	SDL_Rect DestR;     
 	DestR.x = X;    
-	DestR.y = Y;     
+	DestR.y = Y;
+	DestR.w = W;
+	DestR.h = H;
 	SDL_Rect SrcR;     
 	SrcR.x = X2;    
 	SrcR.y = Y2;    
-	SrcR.w = W;    
-	SrcR.h = H;     
-	SDL_BlitSurface(Surf_Src, &SrcR, Surf_Dest, &DestR);     
+	SrcR.w = W2;    
+	SrcR.h = H2;
+	SDL_RenderCopy(renderer, texture, &SrcR, &DestR);   
 	return true;
 }
 
-bool CSurface::Transparent(SDL_Surface* Surf_Dest, int R, int G, int B) {
-    if(Surf_Dest == NULL) {
-        return false;
-    }
- 
-    SDL_SetColorKey(Surf_Dest, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(Surf_Dest->format, R, G, B));
- 
-    return true;
-}
 
 
 void CSurface::PrintStrings( SDL_Surface *sDest, TTF_Font *fnt, std::string str, int X, int Y, int r, int g, int b ) {
@@ -75,7 +53,6 @@ void CSurface::PrintStrings( SDL_Surface *sDest, TTF_Font *fnt, std::string str,
     clr.r = r;
     clr.g = g;
     clr.b = b;
-    clr.unused = 0;
 	SDL_Surface *sText = TTF_RenderText_Solid( fnt, str.c_str(), clr );
 	SDL_BlitSurface( sText,NULL, sDest,&SrcR );
 	SDL_FreeSurface( sText );

@@ -2,7 +2,6 @@
 #define	GAME_H
 #include "SDL.h"
 #include "CSurface.h"
-#include "CEvent.h"
 #include "Cursor.h"
 #include "Ball.h"
 #include "Line.h"
@@ -10,7 +9,7 @@
 #include "Definitions.h"
 
 
-class Game: public CEvent {
+class Game{
 private:
 	bool Running;
 	bool completebox;
@@ -20,9 +19,12 @@ private:
 	int GameState;
 	int lvl, life;
 	int area;
-	SDL_Surface*    Display;
-	SDL_Surface*	Game_Title;
-	Cursor* gamecursor;
+	SDL_Window*    window;
+	SDL_Renderer*	renderer;
+	SDL_Texture*	tex_game_title;
+	SDL_Texture*	tex_cursor;
+	SDL_Texture*	tex_ball;
+	Cursor* cursor;
 	Ball* ball;
 	Line* line;
 	SDL_Rect* box;
@@ -41,7 +43,7 @@ public:
 	void OnCleanup();
 
 	int DetermineBoxFill();
-	void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
+	void OnKeyDown(SDL_Keycode sym, SDL_Keymod mod);
 	void OnLButtonDown(int mX, int mY);
 	void OnRButtonDown(int mX, int mY);
 	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right,bool Middle);

@@ -4,13 +4,13 @@
 class Cursor
 {
     public:
-	SDL_Surface* arrow;
+	SDL_Texture* texture;
 	int x, y;
 	bool direction;
-    Cursor();
+    Cursor(SDL_Texture* texture);
 	~Cursor();
     void Update();
     
-    void Draw(SDL_Surface*  display);
+    void Draw(SDL_Renderer*  renderer);
 };
 #endif

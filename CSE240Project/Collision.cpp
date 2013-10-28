@@ -158,7 +158,7 @@ bool Collision::CircleBoxCollision( Circle &A, std::vector<SDL_Rect> &B )
 double Collision::distance( int x1, int y1, int x2, int y2 )
 {
     //Return the distance between the two points
-	return sqrt( pow( (double)(x2 - x1), 2 ) + pow( double(y2 - y1), 2 ) );
+	return sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
 }
 
 bool Collision::CircleCollision( Circle &A, Circle &B )

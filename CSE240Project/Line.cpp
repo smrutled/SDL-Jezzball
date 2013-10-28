@@ -45,9 +45,9 @@ void Line::Move()
 		if(Rect1.x<=0)
 			complete1=true;
 		}
-		if((Rect2.x+Rect2.w)<SCREENWIDTH && !complete2){
+		if((Rect2.x+Rect2.w)<SCREEN_WIDTH && !complete2){
 		Rect2.w+=speed;
-		if(Rect2.x+Rect2.w>=SCREENWIDTH)
+		if(Rect2.x+Rect2.w>=SCREEN_WIDTH)
 			complete2=true;
 		}
 	}
@@ -59,9 +59,9 @@ void Line::Move()
 		if(Rect1.y<=0)
 			complete1=true;
 		}
-		if((Rect2.y+Rect2.h)<SCREENHEIGHT && !complete2){
+		if((Rect2.y+Rect2.h)<SCREEN_HEIGHT && !complete2){
 		Rect2.h+=speed;
-		if(Rect2.y+Rect2.h>=SCREENHEIGHT)
+		if(Rect2.y+Rect2.h>=SCREEN_HEIGHT)
 			complete2=true;
 		}
 	}
@@ -109,8 +109,9 @@ bool Line::CheckDestroyed()
 {
 	return destroy;
 }
-void Line::Draw(SDL_Surface*  display)
+void Line::Draw(SDL_Renderer*  renderer)
 {
-	SDL_FillRect(display, &Rect1, 0);
-	SDL_FillRect(display, &Rect2, 0);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderFillRect(renderer, &Rect1);
+	SDL_RenderFillRect(renderer, &Rect2);
 }

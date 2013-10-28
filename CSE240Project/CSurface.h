@@ -9,10 +9,9 @@ class CSurface {
 public:
 	CSurface();
 public:
-	static SDL_Surface* OnLoad(char* File);
-	static SDL_Surface* OnLoadBMP(char* File);
-	static bool OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int X, int Y);
-	static bool OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int X, int Y, int X2, int Y2, int W, int H);
+	static SDL_Texture* load_image(char* File, SDL_Renderer* renderer);
+	static bool OnDraw(SDL_Renderer* renderer, SDL_Texture* texture, int X, int Y, int W, int H);
+	static bool OnDraw(SDL_Renderer* renderer, SDL_Texture* texture, int X, int Y, int W, int H, int X2, int Y2, int W2, int H2);
 	static bool Transparent(SDL_Surface* Surf_Dest, int R, int G, int B);
 	static void PrintStrings( SDL_Surface *sDest, TTF_Font *fnt, std::string str, int X, int Y, int r, int g, int b );
 

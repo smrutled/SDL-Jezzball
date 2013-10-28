@@ -4,8 +4,6 @@
 #include "Collision.h"
 #include <vector>
 
-#define SCREENWIDTH 640
-#define SCREENHEIGHT 480
 class Line
 {
 	private:
@@ -26,6 +24,6 @@ class Line
 	bool CheckCompleted();
 	bool CheckDestroyed();
     
-    void Draw(SDL_Surface*  display);
+    void Draw(SDL_Renderer*  renderer);
 };
 #endif
