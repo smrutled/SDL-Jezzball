@@ -1,11 +1,18 @@
-Made in Visual Studio 2010
+Game: Jezzball clone
+
+Visual Studio 2013
+Dev Library: SDL 2.0.1
+
 The libraries are included with in the project.
-I think I made it so that it can run from any Windows computer from any directory.(May need Directx?)
 Open project and run.
 
 Click on Jezzball title to play
 Press p to pause.
 You get 5 lives.
+Has infinite levels
+Returns to title when lives are up
 
-
-Couldn't get text to work.
+Plans:
+	Clean up code
+	Make it more complete(Menu, sound, Gameover screen, etc)
+	Make use of SDL net
