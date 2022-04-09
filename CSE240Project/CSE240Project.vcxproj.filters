@@ -41,20 +41,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="jezzball.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="arrow.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="ball.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="arial.ttf">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Ball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -76,5 +62,22 @@
     <ClInclude Include="Definitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="jezzball.png">
+      <Filter>Resource Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ball.png">
+      <Filter>Resource Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="arrow.png">
+      <Filter>Resource Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="arial.ttf">
+      <Filter>Resource Files</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

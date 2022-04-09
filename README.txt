@@ -1,7 +1,7 @@
 Game: Jezzball clone
 
-Visual Studio 2013
-Dev Library: SDL 2.0.1
+Visual Studio 2022
+Dev Library: SDL 2.0.20
 
 The libraries are included with in the project.
 Open project and run.

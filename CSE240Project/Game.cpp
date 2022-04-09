@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "Game.h"
 
 Game::Game() {
@@ -18,7 +20,7 @@ int Game::Start(){
 	if(Init() == false){
 	return -1;
 	}
-	
+
 	SDL_Event Event;
 	while(Running){
 		while(SDL_PollEvent(&Event)) {
@@ -32,6 +34,7 @@ int Game::Start(){
 		framestarttime = SDL_GetTicks();
 
 	}
+
 	OnCleanup();
 	return 0;
 }
