@@ -99,14 +99,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="arial.ttf">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="arrow.png" />
-    <CopyFileToFolders Include="ball.png" />
-    <CopyFileToFolders Include="jezzball.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CSurface.h" />
@@ -115,6 +107,27 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="assets\arial.ttf">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)\assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\assets</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="assets\arrow.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)\assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\ball.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)\assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\jezzball.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)\assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\assets</DestinationFolders>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

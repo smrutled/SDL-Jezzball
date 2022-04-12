@@ -67,16 +67,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="jezzball.png">
+    <CopyFileToFolders Include="assets\arial.ttf">
       <Filter>Resource Files</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="ball.png">
+    <CopyFileToFolders Include="assets\arrow.png">
       <Filter>Resource Files</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="arrow.png">
+    <CopyFileToFolders Include="assets\ball.png">
       <Filter>Resource Files</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="arial.ttf">
+    <CopyFileToFolders Include="assets\jezzball.png">
       <Filter>Resource Files</Filter>
     </CopyFileToFolders>
   </ItemGroup>

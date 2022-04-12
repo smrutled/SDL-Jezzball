@@ -57,13 +57,13 @@ bool Game::Init() {
 		return false;
 	}
 
-	if ((tex_game_title = CSurface::load_image("jezzball.png", renderer)) == nullptr) {
+	if ((tex_game_title = CSurface::load_image("assets\\jezzball.png", renderer)) == nullptr) {
 		return false;
 	}
-	if ((tex_cursor = CSurface::load_image("arrow.png", renderer)) == nullptr) {
+	if ((tex_cursor = CSurface::load_image("assets\\arrow.png", renderer)) == nullptr) {
 		return false;
 	}
-	if ((tex_ball = CSurface::load_image("ball.png", renderer)) == nullptr) {
+	if ((tex_ball = CSurface::load_image("assets\\ball.png", renderer)) == nullptr) {
 		return false;
 	}
 
