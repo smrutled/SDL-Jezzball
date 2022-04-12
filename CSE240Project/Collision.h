@@ -1,6 +1,6 @@
 #ifndef COLLISION_H
 #define COLLISION_H
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <vector>
 #include "Definitions.h"
 #include <cmath>

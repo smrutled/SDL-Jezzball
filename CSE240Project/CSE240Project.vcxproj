@@ -39,13 +39,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)vcpkg\installed\x86-windows-static\include\SDL2;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)vcpkg\installed\x86-windows-static\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(SolutionDir)vcpkg\installed\x86-windows-static\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)vcpkg\installed\x86-windows-static\include\SDL2;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)vcpkg\installed\x86-windows-static\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(SolutionDir)vcpkg\installed\x86-windows-static\lib;$(LibraryPath)</LibraryPath>

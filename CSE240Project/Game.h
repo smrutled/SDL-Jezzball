@@ -1,6 +1,6 @@
 #ifndef GAME_H    
 #define	GAME_H
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #include "CSurface.h"
 #include "Cursor.h"
 #include "Ball.h"
@@ -24,6 +24,7 @@ private:
 	SDL_Texture*	tex_game_title;
 	SDL_Texture*	tex_cursor;
 	SDL_Texture*	tex_ball;
+	SDL_Event Event;
 	Cursor* cursor;
 	Ball* ball;
 	Line* line;
@@ -36,6 +37,7 @@ public:
 	Game();
 	int Start();
 	bool Init();
+	void Loop();
 	void Input(SDL_Event* Event);
 	void OnExit();
 	void Update();

@@ -17,22 +17,10 @@ Game::Game() {
 
 //Game loop
 int Game::Start(){
-	if(Init() == false){
-	return -1;
-	}
-
-	SDL_Event Event;
-	while(Running){
-		while(SDL_PollEvent(&Event)) {
-			Input(&Event);
-		}
-		Update();
-		OnRender();
-		delaytime = waittime - (SDL_GetTicks() - framestarttime);
-		if(delaytime > 0)
-			SDL_Delay((Uint32)delaytime);
-		framestarttime = SDL_GetTicks();
-
+	
+	
+	while(Running){	
+		Loop();
 	}
 
 	OnCleanup();
@@ -42,33 +30,57 @@ int Game::Start(){
 //Init SDL stuff
 bool Game::Init() {
 	
-	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		printf("SDL_Init failed\n");
 		return false;
+	}
 
 	if (TTF_Init() == -1)
+	{
+		printf("TTF_Init failed\n");
 		return false;
+	}
 
 	if ((window = SDL_CreateWindow("JezzBall", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,
 		SDL_WINDOW_SHOWN)) == nullptr){
+		printf("SDL_CreateWindow failed\n");
 		return false;
 	}
 	if ((renderer = SDL_CreateRenderer(window, -1,
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC))==nullptr){
+		SDL_RENDERER_ACCELERATED))==nullptr){
+		printf("SDL_CreateRenderer failed\n");
 		return false;
 	}
 
-	if ((tex_game_title = CSurface::load_image("assets\\jezzball.png", renderer)) == nullptr) {
+	if ((tex_game_title = CSurface::load_image((char*)"assets/jezzball.png", renderer)) == nullptr) {
+		printf("load_image assets/jezzball.png failed\n");
 		return false;
 	}
-	if ((tex_cursor = CSurface::load_image("assets\\arrow.png", renderer)) == nullptr) {
+	if ((tex_cursor = CSurface::load_image((char*)"assets/arrow.png", renderer)) == nullptr) {
+		printf("load_image assets/arrow.png failed\n");
 		return false;
 	}
-	if ((tex_ball = CSurface::load_image("assets\\ball.png", renderer)) == nullptr) {
+	if ((tex_ball = CSurface::load_image((char*)"assets/ball.png", renderer)) == nullptr) {
+		printf("load_image assets/ball.png failed\n");
 		return false;
 	}
 
 	
 	return true;
+}
+
+void Game::Loop()
+{
+	while (SDL_PollEvent(&Event)) {
+		Input(&Event);
+	}
+	Update();
+	OnRender();
+	delaytime = waittime - (SDL_GetTicks() - framestarttime);
+	if (delaytime > 0)
+		SDL_Delay((Uint32)delaytime);
+	framestarttime = SDL_GetTicks();
 }
 
 void Game::OnExit() {    
@@ -392,6 +404,7 @@ int Game::DetermineBoxFill(){
 		return 1;
 	if(middle1 && !middle2)
 		return 2;
+	return 0;
 }
 
 
