@@ -32,6 +32,20 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: .\install_sdl_libs.bat
     
-    - name: Build
+    - name: Build Exe
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+      
+    - name: Build Web Assembly
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: .\build_web.ps1
+
+    - name: Deploy to GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v2.6.0
+      with:
+        target_branch: gh-pages
+        build_dir: web
+        jekyll: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
