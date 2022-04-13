@@ -3,14 +3,14 @@
 #include "CSurface.h"
 class Cursor
 {
-    public:
+public:
 	SDL_Texture* texture;
 	int x, y;
 	bool direction;
-    Cursor(SDL_Texture* texture);
+	Cursor(SDL_Texture* texture);
 	~Cursor();
-    void Update();
-    
-    void Draw(SDL_Renderer*  renderer);
+	void Update();
+
+	void Draw(SDL_Renderer* renderer);
 };
 #endif

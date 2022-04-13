@@ -9,7 +9,7 @@
 #include "Definitions.h"
 
 
-class Game{
+class Game {
 private:
 	bool Running;
 	bool completebox;
@@ -19,11 +19,11 @@ private:
 	int GameState;
 	int lvl, life;
 	int area;
-	SDL_Window*    window;
-	SDL_Renderer*	renderer;
-	SDL_Texture*	tex_game_title;
-	SDL_Texture*	tex_cursor;
-	SDL_Texture*	tex_ball;
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+	SDL_Texture* tex_game_title;
+	SDL_Texture* tex_cursor;
+	SDL_Texture* tex_ball;
 	SDL_Event Event;
 	Cursor* cursor;
 	Ball* ball;
@@ -31,7 +31,7 @@ private:
 	SDL_Rect* box;
 	std::vector<Ball> ballList;
 	std::vector<SDL_Rect> boxList;
-	
+
 
 public:
 	Game();
@@ -48,7 +48,7 @@ public:
 	void OnKeyDown(SDL_Keycode sym, SDL_Keymod mod);
 	void OnLButtonDown(int mX, int mY);
 	void OnRButtonDown(int mX, int mY);
-	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right,bool Middle);
+	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle);
 };
 
 #endif

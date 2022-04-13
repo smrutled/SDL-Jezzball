@@ -11,22 +11,19 @@ void game_loop()
 	App.Loop();
 }
 
-int main( int argc, char* args[] ) 
-{ 
+int main(int argc, char* args[])
+{
 	printf("Starting Game\n");
 
- if (App.Init() == false) {
-	 printf("Init failed\n");
-	 return -1;
- }
+	if (App.Init() == false) {
+		printf("Init failed\n");
+		return -1;
+	}
 
 #ifdef __EMSCRIPTEN__
-
- emscripten_set_main_loop(game_loop, 0, 1);
- App.OnCleanup();
+	emscripten_set_main_loop(game_loop, 0, 1);
+	App.OnCleanup();
 #else
- return App.Start();
+	return App.Start();
 #endif
-
-
-} 
+}
