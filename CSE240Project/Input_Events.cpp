@@ -63,13 +63,13 @@ void Game::OnKeyDown(SDL_Keycode sym, SDL_Keymod mod) {
 	case SDLK_p: {
 		switch (GameState)
 		{
-		case GAME_PLAY:
+		case GAME_STATE::PLAY:
 			SDL_ShowCursor(1);
-			GameState = GAME_PAUSE;
+			GameState = GAME_STATE::PAUSE;
 			break;
-		case GAME_PAUSE:
+		case GAME_STATE::PAUSE:
 			SDL_ShowCursor(0);
-			GameState = GAME_PLAY;
+			GameState = GAME_STATE::PLAY;
 			break;
 		}
 		break;
@@ -91,13 +91,13 @@ void Game::OnKeyDown(SDL_Keycode sym, SDL_Keymod mod) {
 void Game::OnLButtonDown(int mX, int mY) {
 	switch (GameState)
 	{
-	case GAME_MENU:
+	case GAME_STATE::MENU:
 		if (mX > 100 && mX < 500 && mY>100 && mY < 300)
 		{
-			GameState = GAME_INIT;
+			GameState = GAME_STATE::INIT;
 		}
 		break;
-	case GAME_PLAY:
+	case GAME_STATE::PLAY:
 		if (!Collision::PointBoxCollision(mX, mY, boxList)) {
 			if (line == NULL)
 				line = new Line(mX - 5, mY - 5, cursor->direction);
@@ -108,7 +108,7 @@ void Game::OnLButtonDown(int mX, int mY) {
 			}
 		}
 		break;
-	case GAME_PAUSE:
+	case GAME_STATE::PAUSE:
 		break;
 	}
 }
@@ -116,14 +116,14 @@ void Game::OnLButtonDown(int mX, int mY) {
 void Game::OnRButtonDown(int mX, int mY) {
 	switch (GameState)
 	{
-	case GAME_MENU:
+	case GAME_STATE::MENU:
 		if (mX > 100 && mX < 500 && mY>100 && mY < 300)
-			GameState = GAME_PLAY;
+			GameState = GAME_STATE::PLAY;
 		break;
-	case GAME_PLAY:
+	case GAME_STATE::PLAY:
 		cursor->direction = cursor->direction ? false : true;
 		break;
-	case GAME_PAUSE:
+	case GAME_STATE::PAUSE:
 		break;
 	}
 }
@@ -131,13 +131,13 @@ void Game::OnRButtonDown(int mX, int mY) {
 void Game::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle) {
 	switch (GameState)
 	{
-	case GAME_MENU:
+	case GAME_STATE::MENU:
 		break;
-	case GAME_PLAY:
+	case GAME_STATE::PLAY:
 		cursor->x = mX;
 		cursor->y = mY;
 		break;
-	case GAME_PAUSE:
+	case GAME_STATE::PAUSE:
 		break;
 	}
 }

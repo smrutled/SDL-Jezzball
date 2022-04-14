@@ -7,7 +7,7 @@ Game::Game() {
 	Running = true;
 	waittime = 1000.0f / FPS;
 	framestarttime = 0;
-	GameState = GAME_MENU;
+	GameState = GAME_STATE::MENU;
 	lvl = 1;
 	life = 5;
 	area = 0;
@@ -66,6 +66,10 @@ bool Game::Init() {
 		return false;
 	}
 
+	border.x = 0;
+	border.y = 0;
+	border.h = SCREEN_HEIGHT;
+	border.w = SCREEN_WIDTH;
 
 	return true;
 }
@@ -91,17 +95,17 @@ void Game::Update() {
 	//Used to switch between gamestates
 	switch (GameState)
 	{
-	case GAME_MENU:
+	case GAME_STATE::MENU:
 		break;
-	case GAME_INIT:
+	case GAME_STATE::INIT:
 		SDL_ShowCursor(0);
 		cursor = new Cursor(tex_cursor);
 		ball = new Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball);
 		ballList.insert(ballList.end(), *ball);
 		delete ball;
-		GameState = GAME_PLAY;
+		GameState = GAME_STATE::PLAY;
 		break;
-	case GAME_PLAY:
+	case GAME_STATE::PLAY:
 
 		//Handles all ball movement and collision
 		for (int i = 0; i < ballList.size(); i++)
@@ -254,12 +258,12 @@ void Game::Update() {
 			lvl = 1;
 			life = 5;
 			SDL_ShowCursor(1);
-			GameState = GAME_MENU;
+			GameState = GAME_STATE::MENU;
 		}
 
 
 		break;
-	case GAME_PAUSE:
+	case GAME_STATE::PAUSE:
 		break;
 	}
 }
@@ -270,14 +274,16 @@ void Game::OnRender() {
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderClear(renderer);
 
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderDrawRect(renderer, &border);
 	switch (GameState)
 	{
-	case GAME_MENU:
+	case GAME_STATE::MENU:
 		CSurface::OnDraw(renderer, tex_game_title, SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 200, 200, 400);
 		break;
-	case GAME_INIT:
+	case GAME_STATE::INIT:
 		break;
-	case GAME_PLAY:
+	case GAME_STATE::PLAY:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		for (int i = 0; i < boxList.size(); i++)
 			SDL_RenderFillRect(renderer, &boxList[i]);
@@ -289,7 +295,7 @@ void Game::OnRender() {
 			line->Draw(renderer);
 		}
 		break;
-	case GAME_PAUSE:
+	case GAME_STATE::PAUSE:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		for (int i = 0; i < boxList.size(); i++)
 			SDL_RenderFillRect(renderer, &boxList[i]);

@@ -16,7 +16,7 @@ private:
 	Uint32 waittime;
 	Uint32 framestarttime;
 	Sint32 delaytime;
-	int GameState;
+	GAME_STATE GameState;
 	int lvl, life;
 	int area;
 	SDL_Window* window;
@@ -29,6 +29,7 @@ private:
 	Ball* ball;
 	Line* line;
 	SDL_Rect* box;
+	SDL_Rect border;
 	std::vector<Ball> ballList;
 	std::vector<SDL_Rect> boxList;
 
