@@ -12,10 +12,10 @@ enum class GAME_STATE
    PAUSE
 };
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-#define FPS 60
-#define BALLWIDTH 16
+inline int SCREEN_WIDTH = 640;
+inline int SCREEN_HEIGHT = 480;
+inline int FPS = 60;
+inline int BALLWIDTH=16;
 
 struct Circle
 {
