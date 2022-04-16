@@ -111,7 +111,8 @@ bool Line::CheckDestroyed()
 }
 void Line::Draw(SDL_Renderer* renderer)
 {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &Rect1);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 	SDL_RenderFillRect(renderer, &Rect2);
 }
