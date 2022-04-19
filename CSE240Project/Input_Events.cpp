@@ -121,7 +121,7 @@ void Game::OnRButtonDown(int mX, int mY) {
 			GameState = GAME_STATE::PLAY;
 		break;
 	case GAME_STATE::PLAY:
-		cursor->direction = cursor->direction ? false : true;
+		cursor->ChangeDirection();
 		break;
 	case GAME_STATE::PAUSE:
 		break;

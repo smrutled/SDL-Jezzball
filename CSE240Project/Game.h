@@ -22,7 +22,7 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Texture* tex_game_title;
-	SDL_Texture* tex_cursor;
+	/*SDL_Texture* tex_cursor;*/
 	SDL_Texture* tex_ball;
 	SDL_Event Event;
 	Cursor* cursor;
