@@ -6,10 +6,14 @@ class Cursor
 public:
 	SDL_Texture* texture;
 	int x, y;
+	SDL_Cursor* cursorWE;
+	SDL_Cursor* cursorNS;
+	
 	bool direction;
+	Cursor();
 	Cursor(SDL_Texture* texture);
 	~Cursor();
-	void Update();
+	void ChangeDirection();
 
 	void Draw(SDL_Renderer* renderer);
 };

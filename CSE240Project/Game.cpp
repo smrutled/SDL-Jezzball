@@ -57,10 +57,10 @@ bool Game::Init() {
 		printf("load_image assets/jezzball.png failed\n");
 		return false;
 	}
-	if ((tex_cursor = CSurface::load_image((char*)"assets/arrow.png", renderer)) == nullptr) {
+	/*if ((tex_cursor = CSurface::load_image((char*)"assets/arrow.png", renderer)) == nullptr) {
 		printf("load_image assets/arrow.png failed\n");
 		return false;
-	}
+	}*/
 	if ((tex_ball = CSurface::load_image((char*)"assets/ball.png", renderer)) == nullptr) {
 		printf("load_image assets/ball.png failed\n");
 		return false;
@@ -99,7 +99,7 @@ void Game::Update() {
 		break;
 	case GAME_STATE::INIT:
 		SDL_ShowCursor(0);
-		cursor = new Cursor(tex_cursor);
+		cursor = new Cursor();
 		ball = new Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball);
 		ballList.insert(ballList.end(), *ball);
 		delete ball;
