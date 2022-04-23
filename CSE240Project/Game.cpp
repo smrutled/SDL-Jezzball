@@ -2,6 +2,12 @@
 #include <cmath>
 #include "Game.h"
 
+void Game::DecreaseLives()
+{
+	lives--;
+	text_lives.Update();
+}
+
 Game::Game() {
 	window = nullptr;
 	Running = true;
@@ -9,7 +15,7 @@ Game::Game() {
 	framestarttime = 0;
 	GameState = GAME_STATE::MENU;
 	lvl = 1;
-	life = 5;
+	lives = 5;
 	area = 0;
 	line = nullptr;
 	completebox = false;
@@ -66,6 +72,37 @@ bool Game::Init() {
 		return false;
 	}
 
+	if ((font = TTF_OpenFont("assets/arial.ttf", 20)) == nullptr)
+	{
+		printf("TTF_OpenFont assets/arial.ttf failed\n");
+		return false;
+	}
+	if ((font_outline = TTF_OpenFont("assets/arial.ttf", 20)) == nullptr)
+	{
+		printf("TTF_OpenFont assets/arial.ttf failed\n");
+		return false;
+	}
+
+	text_lives.SetTextFunc([this](SDL_Rect& rect) {
+		TTF_SetFontOutline(font_outline, 2);
+		SDL_Color white = { 255, 255, 255 };
+		SDL_Color black = { 0, 0, 0 };
+		std::string str = "Lives: " + std::to_string(lives);
+		SDL_Surface* bg_surface = TTF_RenderText_Blended(font_outline, str.c_str(), black);
+		SDL_Surface* fg_surface = TTF_RenderText_Blended(font, str.c_str(), white);
+		rect.x = 2;
+		rect.y = 2;
+		rect.h = fg_surface->h;
+		rect.w = fg_surface->w;
+		SDL_SetSurfaceBlendMode(fg_surface, SDL_BLENDMODE_BLEND);
+		SDL_BlitSurface(fg_surface, NULL, bg_surface, &rect);
+		auto texture =  SDL_CreateTextureFromSurface(renderer, bg_surface);
+		SDL_FreeSurface(fg_surface);
+		SDL_FreeSurface(bg_surface);
+		return texture;
+	});
+	text_lives.Update();
+	
 	border.x = 0;
 	border.y = 0;
 	border.h = SCREEN_HEIGHT;
@@ -140,7 +177,7 @@ void Game::Update() {
 			{
 				delete line;
 				line = NULL;
-				life--;
+				DecreaseLives();
 			}
 			if (line != NULL)
 				if (line->CheckCompleted())
@@ -251,12 +288,12 @@ void Game::Update() {
 		}
 
 		//Checks to see if life is zero
-		if (life <= 0) {
+		if (lives <= 0) {
 			boxList.clear();
 			ballList.clear();
 			area = 0;
 			lvl = 1;
-			life = 5;
+			lives = 5;
 			SDL_ShowCursor(1);
 			GameState = GAME_STATE::MENU;
 		}
@@ -294,6 +331,7 @@ void Game::OnRender() {
 		{
 			line->Draw(renderer);
 		}
+		text_lives.Draw(renderer);
 		break;
 	case GAME_STATE::PAUSE:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

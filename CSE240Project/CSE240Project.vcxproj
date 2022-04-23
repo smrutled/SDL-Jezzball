@@ -61,9 +61,9 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>manual-link\SDL2main.lib;SDL2.lib;SDL2_Image.lib;SDL2_ttf.lib;winmm.lib;Setupapi.lib;Version.lib;Imm32.lib;libpng16.lib;freetype.lib;zlib.lib;brotlienc-static.lib;brotlicommon-static.lib;brotlidec-static.lib;bz2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_Image.lib;SDL2_ttf.lib;winmm.lib;Setupapi.lib;Version.lib;Imm32.lib;libpng16.lib;freetype.lib;zlib.lib;brotlienc-static.lib;brotlicommon-static.lib;brotlidec-static.lib;bz2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)vcpkg\installed\x86-windows-static\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)vcpkg\installed\x86-windows-static\lib;$(SolutionDir)vcpkg\installed\x86-windows-static\lib\manual-link;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -99,6 +99,7 @@
     <ClCompile Include="CSurface.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameText.cpp" />
     <ClCompile Include="Input_Events.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Definitions.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameText.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

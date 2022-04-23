@@ -7,6 +7,7 @@
 #include "Line.h"
 #include <vector>
 #include "Definitions.h"
+#include "GameText.h"
 
 
 class Game {
@@ -17,13 +18,16 @@ private:
 	Uint32 framestarttime;
 	Sint32 delaytime;
 	GAME_STATE GameState;
-	int lvl, life;
+	int lvl, lives;
 	int area;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Texture* tex_game_title;
 	/*SDL_Texture* tex_cursor;*/
 	SDL_Texture* tex_ball;
+	GameText text_lives;
+	TTF_Font* font;
+	TTF_Font* font_outline;
 	SDL_Event Event;
 	Cursor* cursor;
 	Ball* ball;
@@ -32,7 +36,7 @@ private:
 	SDL_Rect border;
 	std::vector<Ball> ballList;
 	std::vector<SDL_Rect> boxList;
-
+	void DecreaseLives();
 
 public:
 	Game();
