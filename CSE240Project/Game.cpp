@@ -2,10 +2,43 @@
 #include <cmath>
 #include "Game.h"
 
+void Game::NewGame()
+{
+	boxList.clear();
+	ballList.clear();
+	area = 0;
+	lvl = 1;
+	lives = 5;
+	ballList.insert(ballList.end(), std::move(Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball)));
+	text_lives.Update();
+	cursor->SetState(CURSOR_STATE::DIRECTION);
+	GameState = GAME_STATE::PLAY;
+}
+
 void Game::DecreaseLives()
 {
 	lives--;
 	text_lives.Update();
+}
+
+void Game::NextLevel()
+{
+	lvl += 1; // Increase lvl
+	area = 0;
+	boxList.clear(); // Remove box fills
+	//Add another ball
+	ballList.insert(ballList.end(), std::move(Ball(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball)));
+}
+
+void Game::GameOver()
+{
+	boxList.clear();
+	ballList.clear();
+	area = 0;
+	lvl = 1;
+	lives = 5;
+	cursor->SetState(CURSOR_STATE::ARROW);
+	GameState = GAME_STATE::MENU;
 }
 
 Game::Game() {
@@ -101,12 +134,15 @@ bool Game::Init() {
 		SDL_FreeSurface(bg_surface);
 		return texture;
 	});
-	text_lives.Update();
 	
 	border.x = 0;
 	border.y = 0;
 	border.h = SCREEN_HEIGHT;
 	border.w = SCREEN_WIDTH;
+
+	SDL_ShowCursor(0);
+	cursor = new Cursor();
+	
 
 	return true;
 }
@@ -135,12 +171,7 @@ void Game::Update() {
 	case GAME_STATE::MENU:
 		break;
 	case GAME_STATE::INIT:
-		SDL_ShowCursor(0);
-		cursor = new Cursor();
-		ball = new Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball);
-		ballList.insert(ballList.end(), *ball);
-		delete ball;
-		GameState = GAME_STATE::PLAY;
+		NewGame();
 		break;
 	case GAME_STATE::PLAY:
 
@@ -279,23 +310,13 @@ void Game::Update() {
 		//Checks if the total area of black squares is 85% of the screen
 		if (area >= .85 * SCREEN_WIDTH * SCREEN_HEIGHT)
 		{
-			lvl += 1;
-			area = 0;
-			boxList.clear();
-			ball = new Ball(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball);
-			ballList.insert(ballList.end(), *ball);
-			delete ball;
+			NextLevel();
+			
 		}
 
 		//Checks to see if life is zero
 		if (lives <= 0) {
-			boxList.clear();
-			ballList.clear();
-			area = 0;
-			lvl = 1;
-			lives = 5;
-			SDL_ShowCursor(1);
-			GameState = GAME_STATE::MENU;
+			GameOver();
 		}
 
 

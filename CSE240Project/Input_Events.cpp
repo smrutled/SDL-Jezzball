@@ -64,11 +64,11 @@ void Game::OnKeyDown(SDL_Keycode sym, SDL_Keymod mod) {
 		switch (GameState)
 		{
 		case GAME_STATE::PLAY:
-			SDL_ShowCursor(1);
+			cursor->SetState(CURSOR_STATE::ARROW);
 			GameState = GAME_STATE::PAUSE;
 			break;
 		case GAME_STATE::PAUSE:
-			SDL_ShowCursor(0);
+			cursor->SetState(CURSOR_STATE::DIRECTION);
 			GameState = GAME_STATE::PLAY;
 			break;
 		}
@@ -118,7 +118,10 @@ void Game::OnRButtonDown(int mX, int mY) {
 	{
 	case GAME_STATE::MENU:
 		if (mX > 100 && mX < 500 && mY>100 && mY < 300)
+		{
 			GameState = GAME_STATE::PLAY;
+			cursor->SetState(CURSOR_STATE::DIRECTION);
+		}
 		break;
 	case GAME_STATE::PLAY:
 		cursor->ChangeDirection();

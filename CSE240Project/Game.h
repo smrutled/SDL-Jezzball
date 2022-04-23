@@ -19,7 +19,7 @@ private:
 	Sint32 delaytime;
 	GAME_STATE GameState;
 	int lvl, lives;
-	int area;
+	int area;	// Area filled
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Texture* tex_game_title;
@@ -36,7 +36,10 @@ private:
 	SDL_Rect border;
 	std::vector<Ball> ballList;
 	std::vector<SDL_Rect> boxList;
+	void NewGame();
 	void DecreaseLives();
+	void NextLevel();
+	void GameOver();
 
 public:
 	Game();
