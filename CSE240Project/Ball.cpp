@@ -31,7 +31,7 @@ void Ball::Move(std::vector<SDL_Rect>& rects)
 
 void Ball::CheckBoxCollision(std::vector<SDL_Rect>& B)
 {
-	for (int i = 0; i < B.size(); i++) {
+	for (unsigned int i = 0; i < B.size(); i++) {
 		if (Collision::CircleBoxCollision(c, B[i]))
 		{
 			if (c.x >= B[i].x && c.x <= B[i].x + B[i].w)

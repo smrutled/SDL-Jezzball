@@ -9,7 +9,7 @@ void Game::NewGame()
 	area = 0;
 	lvl = 1;
 	lives = 5;
-	ballList.insert(ballList.end(), std::move(Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball)));
+	ballList.insert(ballList.end(), Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball));
 	text_lives.Update();
 	cursor->SetState(CURSOR_STATE::DIRECTION);
 	GameState = GAME_STATE::PLAY;
@@ -27,7 +27,7 @@ void Game::NextLevel()
 	area = 0;
 	boxList.clear(); // Remove box fills
 	//Add another ball
-	ballList.insert(ballList.end(), std::move(Ball(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball)));
+	ballList.insert(ballList.end(), Ball(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2, rand() % 4 + 6, rand() % 4 + 6, tex_ball));
 }
 
 void Game::GameOver()
@@ -176,10 +176,10 @@ void Game::Update() {
 	case GAME_STATE::PLAY:
 
 		//Handles all ball movement and collision
-		for (int i = 0; i < ballList.size(); i++)
+		for (unsigned int i = 0; i < ballList.size(); i++)
 			ballList[i].Move(boxList);
-		for (int i = 0; i < ballList.size(); i++) {
-			for (int j = 1 + i; j < ballList.size() - i; j++)
+		for (unsigned int i = 0; i < ballList.size(); i++) {
+			for (unsigned int j = 1 + i; j < ballList.size() - i; j++)
 			{
 				if (Collision::CircleCollision(ballList[i].c, ballList[j].c)) {
 					if (ballList[i].c.x <= ballList[j].c.x + ballList[j].c.r * cos((float)45 * M_PI / 180) && ballList[i].c.x >= ballList[j].c.x + ballList[j].c.r * cos((float)135 * M_PI / 180)) {
@@ -202,7 +202,7 @@ void Game::Update() {
 		{
 			line->Move();
 			line->CheckBoxCollision(boxList);
-			for (int i = 0; i < ballList.size(); i++)
+			for (unsigned int i = 0; i < ballList.size(); i++)
 				line->CheckBallCollision(ballList[i].c);
 			if (line->CheckDestroyed())
 			{
@@ -213,40 +213,40 @@ void Game::Update() {
 			if (line != NULL)
 				if (line->CheckCompleted())
 				{
-					box = new SDL_Rect();
+					SDL_Rect box;
 					if (line->getDirection()) {
-						box->x = line->Rect1.x;
-						box->y = line->Rect1.y;
-						box->w = line->Rect2.x + line->Rect2.w - line->Rect1.x;
-						box->h = line->Rect1.h;
-						switch (DetermineBoxFill())
+						box.x = line->Rect1.x;
+						box.y = line->Rect1.y;
+						box.w = line->Rect2.x + line->Rect2.w - line->Rect1.x;
+						box.h = line->Rect1.h;
+						switch (DetermineBoxFill(box))
 						{
 						case 0:break;
 						case 1:
-							while (box->y > 0 && !completebox)
+							while (box.y > 0 && !completebox)
 							{
-								box->y -= 2;
-								box->h += 2;
-								for (int i = 0; i < boxList.size(); i++)
+								box.y -= 2;
+								box.h += 2;
+								for (unsigned int i = 0; i < boxList.size(); i++)
 								{
-									if (Collision::BoxCollision(*box, boxList[i]))
+									if (Collision::BoxCollision(box, boxList[i]))
 									{
-										box->h -= boxList[i].y + boxList[i].h - box->y;
-										box->y = boxList[i].y + boxList[i].h;
+										box.h -= boxList[i].y + boxList[i].h - box.y;
+										box.y = boxList[i].y + boxList[i].h;
 										completebox = true;
 									}
 								}
 							}
 							break;
 						case 2:
-							while (box->y + box->h < SCREEN_HEIGHT && !completebox)
+							while (box.y + box.h < SCREEN_HEIGHT && !completebox)
 							{
-								box->h += 2;
-								for (int i = 0; i < boxList.size(); i++)
+								box.h += 2;
+								for (unsigned int i = 0; i < boxList.size(); i++)
 								{
-									if (Collision::BoxCollision(*box, boxList[i]))
+									if (Collision::BoxCollision(box, boxList[i]))
 									{
-										box->h = boxList[i].y - box->y;
+										box.h = boxList[i].y - box.y;
 										completebox = true;
 									}
 								}
@@ -256,39 +256,39 @@ void Game::Update() {
 					}
 					else
 					{
-						box->x = line->Rect1.x;
-						box->y = line->Rect1.y;
-						box->w = line->Rect1.w;
-						box->h = line->Rect2.y + line->Rect2.h - line->Rect1.y;
+						box.x = line->Rect1.x;
+						box.y = line->Rect1.y;
+						box.w = line->Rect1.w;
+						box.h = line->Rect2.y + line->Rect2.h - line->Rect1.y;
 
-						switch (DetermineBoxFill())
+						switch (DetermineBoxFill(box))
 						{
 						case 0: break;
 						case 1:
-							while (box->x > 0 && !completebox)
+							while (box.x > 0 && !completebox)
 							{
-								box->x -= 2;
-								box->w += 2;
-								for (int i = 0; i < boxList.size(); i++)
+								box.x -= 2;
+								box.w += 2;
+								for (unsigned int i = 0; i < boxList.size(); i++)
 								{
-									if (Collision::BoxCollision(*box, boxList[i]))
+									if (Collision::BoxCollision(box, boxList[i]))
 									{
-										box->w -= boxList[i].x + boxList[i].w - box->x;
-										box->x = boxList[i].x + boxList[i].w;
+										box.w -= boxList[i].x + boxList[i].w - box.x;
+										box.x = boxList[i].x + boxList[i].w;
 										completebox = true;
 									}
 								}
 							}
 							break;
 						case 2:
-							while (box->x + box->w < SCREEN_WIDTH && !completebox)
+							while (box.x + box.w < SCREEN_WIDTH && !completebox)
 							{
-								box->w += 2;
-								for (int i = 0; i < boxList.size(); i++)
+								box.w += 2;
+								for (unsigned int i = 0; i < boxList.size(); i++)
 								{
-									if (Collision::BoxCollision(*box, boxList[i]))
+									if (Collision::BoxCollision(box, boxList[i]))
 									{
-										box->w = boxList[i].x - box->x;
+										box.w = boxList[i].x - box.x;
 										completebox = true;
 									}
 								}
@@ -298,9 +298,8 @@ void Game::Update() {
 					}
 
 
-					area += box->h * box->w;
-					boxList.insert(boxList.end(), *box);
-					delete box;
+					area += box.h * box.w;
+					boxList.insert(boxList.end(), box);
 					delete line;
 					line = NULL;
 					completebox = false;
@@ -343,9 +342,9 @@ void Game::OnRender() {
 		break;
 	case GAME_STATE::PLAY:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		for (int i = 0; i < boxList.size(); i++)
+		for (unsigned int i = 0; i < boxList.size(); i++)
 			SDL_RenderFillRect(renderer, &boxList[i]);
-		for (int i = 0; i < ballList.size(); i++)
+		for (unsigned int i = 0; i < ballList.size(); i++)
 			ballList[i].Draw(renderer);
 		cursor->Draw(renderer);
 		if (line != NULL)
@@ -356,9 +355,9 @@ void Game::OnRender() {
 		break;
 	case GAME_STATE::PAUSE:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		for (int i = 0; i < boxList.size(); i++)
+		for (unsigned int i = 0; i < boxList.size(); i++)
 			SDL_RenderFillRect(renderer, &boxList[i]);
-		for (int i = 0; i < ballList.size(); i++)
+		for (unsigned int i = 0; i < ballList.size(); i++)
 			ballList[i].Draw(renderer);
 		cursor->Draw(renderer);
 		if (line != NULL)
@@ -379,7 +378,7 @@ void Game::OnCleanup() {
 
 
 //Determines which rectangle to fill when line is complete
-int Game::DetermineBoxFill() {
+int Game::DetermineBoxFill(SDL_Rect &box) {
 	bool middle1 = false;
 	bool middle2 = false;
 	bool collided1 = false;
@@ -388,12 +387,12 @@ int Game::DetermineBoxFill() {
 	int y = 0;
 	if (line->getDirection()) {
 
-		for (int i = 0; i < ballList.size(); i++)
+		for (unsigned int i = 0; i < ballList.size(); i++)
 		{
-			x = box->x + box->w / 2;
-			y = box->y;
-			if (ballList[i].c.x >= box->x && ballList[i].c.x <= box->x + box->w) {
-				if (ballList[i].c.y < box->y) {
+			x = box.x + box.w / 2;
+			y = box.y;
+			if (ballList[i].c.x >= box.x && ballList[i].c.x <= box.x + box.w) {
+				if (ballList[i].c.y < box.y) {
 					while (y > 0 && !collided1) {
 						y -= 1;
 						if (Collision::PointBoxCollision(x, y, boxList)) {
@@ -424,12 +423,12 @@ int Game::DetermineBoxFill() {
 	}
 	else {
 
-		for (int i = 0; i < ballList.size(); i++)
+		for (unsigned int i = 0; i < ballList.size(); i++)
 		{
-			x = box->x;
-			y = box->y + box->h / 2;
-			if (ballList[i].c.y >= box->y && ballList[i].c.y <= box->y + box->h) {
-				if (ballList[i].c.x < box->x) {
+			x = box.x;
+			y = box.y + box.h / 2;
+			if (ballList[i].c.y >= box.y && ballList[i].c.y <= box.y + box.h) {
+				if (ballList[i].c.x < box.x) {
 					while (x > 0 && !collided1) {
 						x -= 1;
 						if (Collision::PointBoxCollision(x, y, boxList)) {

@@ -69,7 +69,7 @@ void Line::Move()
 
 void Line::CheckBoxCollision(std::vector<SDL_Rect>& B)
 {
-	for (int i = 0; i < B.size(); i++)
+	for (unsigned int i = 0; i < B.size(); i++)
 	{
 		if (Collision::BoxCollision(Rect1, B[i]))
 		{

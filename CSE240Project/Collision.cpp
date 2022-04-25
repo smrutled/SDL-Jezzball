@@ -52,7 +52,7 @@ bool Collision::BoxCollision(SDL_Rect& A, SDL_Rect& B)
 
 bool Collision::PointBoxCollision(int x, int y, std::vector<SDL_Rect>& B)
 {
-	for (int i = 0; i < B.size(); i++)
+	for (unsigned int i = 0; i < B.size(); i++)
 	{
 		if (x >= B[i].x && x <= B[i].x + B[i].w)
 			if (y >= B[i].y && y <= B[i].y + B[i].h)
@@ -111,7 +111,7 @@ bool Collision::CircleBoxCollision(Circle& A, std::vector<SDL_Rect>& B)
 	int cX, cY;
 
 	//Go through the B boxes
-	for (int Bbox = 0; Bbox < B.size(); Bbox++)
+	for (unsigned int Bbox = 0; Bbox < B.size(); Bbox++)
 	{
 		//Find closest x offset
 		if (A.x < B[Bbox].x)

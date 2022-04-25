@@ -51,8 +51,10 @@ void Game::Input(SDL_Event* Event) {
 	case SDL_QUIT: {
 		OnExit();
 		break;
-	}
 
+	}
+	default:
+		break;
 	}
 }
 

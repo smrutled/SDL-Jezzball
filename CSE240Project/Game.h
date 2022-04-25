@@ -32,7 +32,6 @@ private:
 	Cursor* cursor;
 	Ball* ball;
 	Line* line;
-	SDL_Rect* box;
 	SDL_Rect border;
 	std::vector<Ball> ballList;
 	std::vector<SDL_Rect> boxList;
@@ -52,7 +51,7 @@ public:
 	void OnRender();
 	void OnCleanup();
 
-	int DetermineBoxFill();
+	int DetermineBoxFill(SDL_Rect &box);
 	void OnKeyDown(SDL_Keycode sym, SDL_Keymod mod);
 	void OnLButtonDown(int mX, int mY);
 	void OnRButtonDown(int mX, int mY);
